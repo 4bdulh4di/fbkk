@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBKK Kabupaten Probolinggo | Forum Bursa Kerja Khusus</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#3b82f6',
+                        accent: '#eab308',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .slider-img { transition: opacity 0.8s ease-in-out; opacity: 0; position: absolute; inset: 0; z-index: 0; }
+        .slider-img.active { opacity: 1; z-index: 10; }
+        .slider-content { transition: all 0.8s ease-in-out; opacity: 0; transform: translateY(20px); }
+        .slider-img.active .slider-content { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+        .navbar-scrolled { background-color: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .overlay-gradient { background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 50%, rgba(15, 23, 42, 0.1) 100%); }
+    </style>
+</head>
+<body id="top" class="font-sans text-gray-700 bg-gray-50 overflow-x-hidden">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#top" onclick="scrollToHome(event)" class="flex-shrink-0 flex items-center gap-3 cursor-pointer">
+                    <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg border-2 border-accent">FJ</div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl text-primary leading-tight">FBKK SMK</h1>
+                        <p class="text-xs text-gray-500 font-medium">Kabupaten Probolinggo</p>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex space-x-6 lg:space-x-8 items-center">
+                    <a href="#top" onclick="scrollToHome(event)" class="text-primary font-semibold hover:text-accent transition-colors text-sm uppercase tracking-wide">Home</a>
+                    <a href="#profil" class="text-gray-600 font-medium hover:text-primary transition-colors text-sm uppercase tracking-wide">Profil</a>
+                    <a href="#lowongan" class="text-gray-600 font-medium hover:text-primary transition-colors text-sm uppercase tracking-wide">Lowongan</a>
+                    <a href="#mitra" class="text-gray-600 font-medium hover:text-primary transition-colors text-sm uppercase tracking-wide">Mitra</a>
+                    <a href="#berita" class="text-gray-600 font-medium hover:text-primary transition-colors text-sm uppercase tracking-wide">Berita</a>
+                    <a href="#tracer" class="bg-primary text-white px-5 py-2 rounded-full font-medium hover:bg-blue-900 transition-all shadow-md hover:shadow-lg border border-transparent hover:border-accent text-sm">Tracer Study</a>
+                </div>
+
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t">
+            <div class="px-4 pt-2 pb-6 space-y-2 shadow-inner">
+                <a href="#top" onclick="scrollToHome(event)" class="block px-3 py-3 text-primary font-semibold border-b">Home</a>
+                <a href="#profil" class="block px-3 py-3 text-gray-600 font-medium hover:bg-gray-50 border-b">Profil FBKK</a>
+                <a href="#lowongan" class="block px-3 py-3 text-gray-600 font-medium hover:bg-gray-50 border-b">Lowongan Kerja</a>
+                <a href="#mitra" class="block px-3 py-3 text-gray-600 font-medium hover:bg-gray-50 border-b">Mitra Industri</a>
+                <a href="#berita" class="block px-3 py-3 text-gray-600 font-medium hover:bg-gray-50 border-b">Berita & Kegiatan</a>
+                <a href="#tracer" class="block px-3 py-3 text-accent font-semibold hover:bg-gray-50">Tracer Study</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HERO SLIDER ================= -->
+    <header class="relative w-full h-[85vh] min-h-[500px] overflow-hidden bg-gray-900 pt-20">
+        <div id="slider-container" class="relative w-full h-full">
+            <div class="absolute inset-0 flex items-center justify-center text-white z-10">
+                <p class="animate-pulse text-lg">Memuat banner terbaru...</p>
+            </div>
+        </div>
+        <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all hidden"><i class="fas fa-chevron-left text-xl"></i></button>
+        <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/40 text-white w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-sm transition-all hidden"><i class="fas fa-chevron-right text-xl"></i></button>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex space-x-3" id="dots-container"></div>
+    </header>
+
+    <!-- ================= TENTANG FBKK ================= -->
+    <section id="profil" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h5 id="profil-subjudul" class="text-accent font-bold tracking-wider uppercase text-sm mb-2"><i class="fas fa-spinner fa-spin"></i></h5>
+                <h2 id="profil-judul" class="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">Memuat Profil...</h2>
+                <div class="w-20 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+                <p id="profil-deskripsi" class="text-gray-600 text-lg leading-relaxed">
+                    Mohon tunggu, sedang mengambil data dari database.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= LOWONGAN KERJA ================= -->
+    <section id="lowongan" class="py-20 bg-gray-50 border-t border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12 border-b pb-4 border-gray-200">
+                <div>
+                    <h2 class="text-3xl font-heading font-bold text-primary mb-2">Lowongan Terbaru</h2>
+                    <p class="text-gray-500">Peluang karier menanti Anda.</p>
+                </div>
+            </div>
+            <div id="lowongan-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <p class="col-span-full text-center text-gray-500 animate-pulse">Memuat data lowongan...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STATISTIK ================= -->
+    <section class="py-16 bg-primary relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center divide-x divide-white/20">
+                <div class="px-4"><div id="stat-alumni" class="text-4xl md:text-5xl font-heading font-bold text-accent mb-2 counter" data-target="0">0</div><p class="text-blue-100 text-sm md:text-base font-medium">Jumlah Alumni</p></div>
+                <div class="px-4"><div id="stat-bekerja" class="text-4xl md:text-5xl font-heading font-bold text-white mb-2 counter" data-target="0">0</div><p class="text-blue-100 text-sm md:text-base font-medium">Alumni Bekerja</p></div>
+                <div class="px-4"><div id="stat-wirausaha" class="text-4xl md:text-5xl font-heading font-bold text-white mb-2 counter" data-target="0">0</div><p class="text-blue-100 text-sm md:text-base font-medium">Wirausaha</p></div>
+                <div class="px-4"><div id="stat-mitra" class="text-4xl md:text-5xl font-heading font-bold text-white mb-2 counter" data-target="0">0</div><p class="text-blue-100 text-sm md:text-base font-medium">Mitra Industri</p></div>
+                <div class="px-4 col-span-2 md:col-span-1 border-t md:border-t-0 pt-8 md:pt-0 mt-4 md:mt-0 border-white/20"><div id="stat-lowongan" class="text-4xl md:text-5xl font-heading font-bold text-accent mb-2 counter" data-target="0">0</div><p class="text-blue-100 text-sm md:text-base font-medium">Lowongan Aktif</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= MITRA INDUSTRI ================= -->
+    <section id="mitra" class="py-16 bg-white border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h5 class="text-accent font-bold tracking-wider uppercase text-sm mb-2">Kerja Sama</h5>
+          <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary">Mitra Industri Kami</h2>
+          <p class="text-gray-600 mt-2">Perusahaan dan instansi yang bekerja sama. Klik kartu mitra untuk melihat detail lengkap.</p>
+        </div>
+        <div id="grid-mitra" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 items-center">
+          <div class="col-span-full text-center py-8"><p class="text-gray-500 animate-pulse">Memuat mitra industri...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL DETAIL MITRA -->
+    <div id="modalMitra" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative shadow-2xl transition-all transform scale-95 duration-300">
+        <button onclick="closeMitraDetail()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+        <div class="flex items-center space-x-4 border-b pb-4 mb-4">
+          <img id="modalLogo" src="" alt="Logo Mitra" class="h-16 w-16 object-contain rounded-lg border p-1">
+          <div>
+            <h3 id="modalNama" class="text-xl font-bold text-primary"></h3>
+            <span id="modalBidang" class="inline-block bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-semibold mt-1"></span>
+          </div>
+        </div>
+        <div class="space-y-3 text-sm text-gray-600">
+          <div><strong class="text-gray-800 block">📍 Lokasi / Wilayah Operasional:</strong><p id="modalLokasi"></p></div>
+          <div><strong class="text-gray-800 block">📝 Profil & Kerjasama:</strong><p id="modalDeskripsi"></p></div>
+          <div><strong class="text-gray-800 block">💼 Lowongan / Posisi:</strong><p id="modalPosisi" class="text-blue-700 font-medium"></p></div>
+        </div>
+        <div class="mt-6 border-t pt-4 flex justify-end">
+          <button onclick="closeMitraDetail()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-300">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= BERITA ================= -->
+    <section id="berita" class="py-16 bg-gray-50 border-t border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h5 class="text-accent font-bold tracking-wider uppercase text-sm mb-2">Update Terbaru</h5>
+          <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary">Berita & Kegiatan</h2>
+          <p class="text-gray-600 mt-2">Informasi terbaru seputar kegiatan FBKK, pelatihan, dan rekrutmen alumni.</p>
+        </div>
+        <div id="grid-berita" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="col-span-full text-center py-8"><p class="text-gray-500 animate-pulse">Memuat berita terbaru...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL DETAIL BERITA -->
+    <div id="modal-berita" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-2xl w-full p-6 relative shadow-2xl transition-all max-h-[90vh] overflow-y-auto">
+        <button onclick="tutupModalBerita()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold z-10">&times;</button>
+        <img id="modal-berita-img" src="" alt="Berita" class="w-full h-64 object-cover rounded-xl mb-4">
+        <div class="flex items-center space-x-3 mb-2">
+          <span id="modal-berita-kategori" class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-semibold"></span>
+          <span id="modal-berita-tanggal" class="text-xs text-gray-500"></span>
+        </div>
+        <h3 id="modal-berita-judul" class="text-2xl font-bold text-gray-900 mb-4"></h3>
+        <div id="modal-berita-konten" class="text-gray-700 text-sm space-y-3 leading-relaxed whitespace-pre-line border-t pt-4"></div>
+        <div class="mt-6 border-t pt-4 flex justify-end">
+          <button onclick="tutupModalBerita()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-300">Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TRACER STUDY ================= -->
+    <section id="tracer" class="py-20 bg-blue-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:w-1/2">
+                    <h5 class="text-accent font-bold tracking-wider uppercase text-sm mb-2">Pendataan Alumni</h5>
+                    <h2 class="text-3xl md:text-4xl font-heading font-bold text-primary mb-6">Tracer Study Lulusan</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Data Anda sangat berarti bagi pengembangan kualitas pendidikan sekolah kita.</p>
+                </div>
+                
+                <div class="md:w-1/2 w-full">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2 font-heading">Formulir Pendataan</h3>
+                        <p id="info-status-pencarian" class="text-xs text-gray-500 mb-6">Ketik nama Anda untuk mencari data otomatis.</p>
+                        
+                        <form id="form-tracer" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Cari Nama Lengkap *</label>
+                                    <input type="text" id="input-nama" list="alumni-list" required placeholder="Ketik nama alumni..." autocomplete="off" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                    <datalist id="alumni-list"></datalist>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Lulus *</label>
+                                    <input type="number" id="input-tahun" min="2010" max="2026" readonly required placeholder="Otomatis terisi..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-100 outline-none transition-all cursor-not-allowed">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Alumni *</label>
+                                    <input type="email" id="input-email" required placeholder="contoh@email.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">No. HP / WhatsApp *</label>
+                                    <input type="tel" id="input-nohp" required placeholder="081234567890" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Asal Sekolah *</label>
+                                <select id="input-sekolah" disabled required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-100 outline-none transition-all cursor-not-allowed">
+                                    <option value="">-- Otomatis terisi / Pilih Sekolah --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Jurusan *</label>
+                                <select id="input-jurusan" disabled required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-100 outline-none transition-all cursor-not-allowed">
+                                    <option value="">-- Otomatis terisi / Pilih Jurusan --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status Saat Ini *</label>
+                                <select id="status-alumni" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                    <option value="">Pilih Status</option>
+                                    <option value="Bekerja">Bekerja</option>
+                                    <option value="Kuliah">Kuliah</option>
+                                    <option value="Wirausaha">Wirausaha</option>
+                                    <option value="Mencari Kerja">Mencari Kerja</option>
+                                </select>
+                            </div>
+
+                            <!-- ISIAN DINAMIS: BEKERJA -->
+                            <div id="detail-bekerja" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bekerja Sebagai Apa (Posisi/Jabatan) *</label>
+                                    <input type="text" id="input-posisi-kerja" placeholder="Contoh: Staff IT / Operator Produksi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tempat Bekerja (Nama Perusahaan/PT) *</label>
+                                    <input type="text" id="input-tempat-kerja" placeholder="Contoh: PT Astra Honda Motor" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <!-- ISIAN DINAMIS: KULIAH -->
+                            <div id="detail-kuliah" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kampus / Perguruan Tinggi *</label>
+                                    <input type="text" id="input-nama-kampus" placeholder="Contoh: Universitas Brawijaya" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Jurusan yang Dipilih *</label>
+                                    <input type="text" id="input-jurusan-kuliah" placeholder="Contoh: Teknik Informatika" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <!-- ISIAN DINAMIS: WIRAUSAHA -->
+                            <div id="detail-wirausaha" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bergerak di Bidang Usaha Apa *</label>
+                                    <input type="text" id="input-jenis-usaha" placeholder="Contoh: Kuliner / Jasa Desain" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Usaha *</label>
+                                    <input type="text" id="input-nama-usaha" placeholder="Contoh: Toko Kopi Sejahtera" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btn-submit" class="w-full bg-primary hover:bg-blue-900 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-md mt-4">Kirim Data Tracer</button>
+                            <p id="pesan-sukses" class="text-green-600 text-sm text-center font-medium hidden mt-3"><i class="fas fa-check-circle mr-1"></i> Data berhasil dikirim. Terima kasih!</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= DASHBOARD PROGRESS TRACER ================= -->
+            <div class="mt-20 w-full">
+                <!-- Cards Section -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-[#38bdf8] text-white p-6 rounded-xl shadow-md border border-blue-400">
+                        <div class="text-4xl font-bold mb-1 font-heading" id="card-total-responden">0</div>
+                        <div class="text-sm font-semibold tracking-wide">Total Responden</div>
+                    </div>
+                    <div class="bg-[#38bdf8] bg-opacity-80 text-white p-6 rounded-xl shadow-md border border-blue-300">
+                        <div class="text-4xl font-bold mb-1 font-heading" id="card-total-sekolah">0</div>
+                        <div class="text-sm font-semibold tracking-wide">Sekolah Mengisi</div>
+                    </div>
+                    <div class="bg-[#f87171] text-white p-6 rounded-xl shadow-md border border-red-400">
+                        <div class="text-4xl font-bold mb-1 font-heading" id="card-total-jurusan">0</div>
+                        <div class="text-sm font-semibold tracking-wide">Jumlah Jurusan</div>
+                    </div>
+                    <div class="bg-[#a855f7] text-white p-6 rounded-xl shadow-md border border-purple-400">
+                        <div class="text-4xl font-bold mb-1 font-heading" id="card-total-bekerja">0</div>
+                        <div class="text-sm font-semibold tracking-wide">Sudah Bekerja</div>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <div class="flex justify-between items-end mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 font-heading">Progress Pengisian Tracer</h3>
+                            <p class="text-sm text-gray-500">Data siswa yang telah berhasil mensubmit formulir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead class="bg-gray-50 border-b border-gray-200 text-gray-700 font-semibold">
+                                <tr>
+                                    <th class="py-3 px-4 text-center w-16">No</th>
+                                    <th class="py-3 px-4">Nama Lengkap</th>
+                                    <th class="py-3 px-4">Asal Sekolah</th>
+                                    <th class="py-3 px-4">Jurusan</th>
+                                    <th class="py-3 px-4 text-center">Tahun Lulus</th>
+                                    <th class="py-3 px-4 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-progress-body" class="divide-y divide-gray-100 text-gray-600">
+                                <tr>
+                                    <td colspan="6" class="py-8 text-center text-gray-500">
+                                        <i class="fas fa-spinner fa-spin mr-2"></i> Memuat data progress...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- ================= END DASHBOARD PROGRESS ================= -->
+
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="font-heading font-bold text-2xl mb-4">FBKK SMK Kabupaten Probolinggo</h2>
+            <p class="text-gray-400 text-sm mb-6">Forum Bursa Kerja Khusus. Menjadi jembatan emas antara dunia pendidikan dan dunia industri.</p>
+            <p class="text-gray-500 text-sm">&copy; 2026 FBKK SMK Kabupaten Probolinggo. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- ================= MASTER JAVASCRIPT ================= -->
+    <script>
+        // Array Penyimpan Data Global
+        let globalMitraData = [];
+        let globalBeritaData = [];
+
+        // Fungsi Scroll ke Home
+        function scrollToHome(e) {
+            if (e) e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Data Master Alumni, Sekolah, dan Jurusan
+        let masterAlumniData = [];
+        let listSekolahMaster = [];
+        let listJurusanMaster = [];
+
+        // Helper Safe JSON Parsing
+        function safeParse(val, fallback) {
+            if (!val) return fallback;
+            if (typeof val === 'string') {
+                try { return JSON.parse(val); } catch(e) { return fallback; }
+            }
+            return val;
+        }
+
+        // Navbar
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) { navbar.classList.add('navbar-scrolled', 'shadow-md'); navbar.classList.remove('bg-white'); } 
+            else { navbar.classList.remove('navbar-scrolled', 'shadow-md'); navbar.classList.add('bg-white'); }
+        });
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('#mobile-menu a').forEach(link => { link.addEventListener('click', () => mobileMenu.classList.add('hidden')); });
+
+        // Modals dengan Indeks Data Aman
+        function openMitraDetailByIndex(index) {
+            const item = globalMitraData[index];
+            if (!item) return;
+            document.getElementById('modalNama').innerText = item.nama || 'Nama Mitra';
+            document.getElementById('modalBidang').innerText = item.bidang || '-';
+            document.getElementById('modalLokasi').innerText = item.lokasi || '-';
+            document.getElementById('modalDeskripsi').innerText = item.deskripsi || '-';
+            document.getElementById('modalPosisi').innerText = item.posisi || '-';
+            document.getElementById('modalLogo').src = item.logo || 'https://via.placeholder.com/200?text=No+Logo';
+            document.getElementById('modalMitra').classList.remove('hidden');
+        }
+        function closeMitraDetail() { document.getElementById('modalMitra').classList.add('hidden'); }
+
+        function bukaModalBeritaByIndex(index) {
+            const item = globalBeritaData[index];
+            if (!item) return;
+            document.getElementById('modal-berita-judul').innerText = item.judul || '';
+            document.getElementById('modal-berita-kategori').innerText = item.kategori || '';
+            document.getElementById('modal-berita-tanggal').innerText = item.tanggal || '';
+            document.getElementById('modal-berita-konten').innerText = item.excerpt || item.konten || '';
+            document.getElementById('modal-berita-img').src = item.gambar || '';
+            document.getElementById('modal-berita').classList.remove('hidden');
+        }
+        function tutupModalBerita() { document.getElementById('modal-berita').classList.add('hidden'); }
+
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('modalMitra')) closeMitraDetail();
+            if (event.target === document.getElementById('modal-berita')) tutupModalBerita();
+        });
+
+        // Form Tracer & Autocomplete
+        const statusAlumni = document.getElementById('status-alumni');
+        const detailBekerja = document.getElementById('detail-bekerja');
+        const detailKuliah = document.getElementById('detail-kuliah');
+        const detailWirausaha = document.getElementById('detail-wirausaha');
+
+        const inputPosisiKerja = document.getElementById('input-posisi-kerja');
+        const inputTempatKerja = document.getElementById('input-tempat-kerja');
+        const inputNamaKampus = document.getElementById('input-nama-kampus');
+        const inputJurusanKuliah = document.getElementById('input-jurusan-kuliah');
+        const inputJenisUsaha = document.getElementById('input-jenis-usaha');
+        const inputNamaUsaha = document.getElementById('input-nama-usaha');
+
+        const formTracer = document.getElementById('form-tracer');
+        const btnSubmit = document.getElementById('btn-submit');
+        const pesanSukses = document.getElementById('pesan-sukses');
+        const inputNama = document.getElementById('input-nama');
+        const inputTahun = document.getElementById('input-tahun');
+        const inputEmail = document.getElementById('input-email');
+        const inputNohp = document.getElementById('input-nohp');
+        const inputSekolah = document.getElementById('input-sekolah');
+        const inputJurusan = document.getElementById('input-jurusan');
+        const infoStatus = document.getElementById('info-status-pencarian');
+
+        // Memuat Daftar Sekolah & Jurusan ke Dropdown
+        function loadSekolahDanJurusan() {
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run
+                    .withSuccessHandler(function(res) {
+                        if (!res) return;
+                        listSekolahMaster = res.sekolah || [];
+                        listJurusanMaster = res.jurusan || [];
+
+                        inputSekolah.innerHTML = '<option value="">-- Pilih Sekolah --</option>';
+                        listSekolahMaster.forEach(s => {
+                            inputSekolah.innerHTML += `<option value="${s}">${s}</option>`;
+                        });
+
+                        inputJurusan.innerHTML = '<option value="">-- Pilih Jurusan --</option>';
+                        listJurusanMaster.forEach(j => {
+                            inputJurusan.innerHTML += `<option value="${j}">${j}</option>`;
+                        });
+                    })
+                    .getDaftarSekolahDanJurusan();
+            }
+        }
+
+        // Memuat Master Alumni untuk Autocomplete
+        function loadMasterAlumni() {
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run
+                    .withSuccessHandler(function(data) {
+                        masterAlumniData = data || [];
+                        const datalist = document.getElementById('alumni-list');
+                        datalist.innerHTML = '';
+                        
+                        masterAlumniData.forEach(item => {
+                            const namaAlumni = item.nama || item['Nama'] || item['Nama Lengkap'] || '';
+                            const sekolah = item.sekolah || item['Sekolah'] || item['Asal Sekolah'] || '';
+                            const jurusan = item.jurusan || item['Jurusan'] || '';
+                            const tahun = item.tahun || item['Tahun Lulus'] || item['Tahun'] || '';
+                            
+                            const labelUnik = item.label || `${namaAlumni} - ${sekolah} (${jurusan} - ${tahun})`;
+
+                            if (namaAlumni) {
+                                const option = document.createElement('option');
+                                option.value = labelUnik;
+                                datalist.appendChild(option);
+                            }
+                        });
+                    })
+                    .withFailureHandler(err => console.error("Gagal memuat master alumni: " + err))
+                    .getDaftarAlumni();
+            }
+        }
+
+        // Auto-Fill & Kontrol Buka/Kunci
+        function autoFillDataAlumni() {
+            const valInput = inputNama ? inputNama.value.trim() : '';
+
+            if (!valInput) {
+                resetFormIsian();
+                infoStatus.innerText = "Ketik nama Anda untuk mencari data otomatis.";
+                infoStatus.className = "text-xs text-gray-500 mb-6";
+                return;
+            }
+
+            const matchedAlumni = masterAlumniData.find(item => {
+                const namaAlumni = (item.nama || item['Nama'] || '').toLowerCase();
+                const sekolah = (item.sekolah || item['Sekolah'] || '').toLowerCase();
+                const jurusan = (item.jurusan || item['Jurusan'] || '').toLowerCase();
+                const tahun = (item.tahun || item['Tahun Lulus'] || '').toString();
+                const labelUnik = (item.label || `${namaAlumni} - ${sekolah} (${jurusan} - ${tahun})`).toLowerCase();
+
+                const inputLower = valInput.toLowerCase();
+                return labelUnik === inputLower || namaAlumni === inputLower;
+            });
+
+            if (matchedAlumni) {
+                inputTahun.value = matchedAlumni.tahun || matchedAlumni['Tahun Lulus'] || '';
+                inputSekolah.value = matchedAlumni.sekolah || matchedAlumni['Sekolah'] || '';
+                inputJurusan.value = matchedAlumni.jurusan || matchedAlumni['Jurusan'] || '';
+                if (inputEmail && (matchedAlumni.email || matchedAlumni['Email'])) inputEmail.value = matchedAlumni.email || matchedAlumni['Email'];
+                if (inputNohp && (matchedAlumni.nohp || matchedAlumni['No HP'])) inputNohp.value = matchedAlumni.nohp || matchedAlumni['No HP'];
+
+                setFormStatus(true);
+
+                infoStatus.innerHTML = '<i class="fas fa-check-circle mr-1"></i> Data alumni ditemukan. Kolom terkunci secara otomatis.';
+                infoStatus.className = "text-xs text-green-600 font-semibold mb-6";
+            } else {
+                setFormStatus(false);
+
+                infoStatus.innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i> Nama tidak ditemukan di database. Silakan pilih Sekolah, Jurusan, dan Tahun Lulus secara manual.';
+                infoStatus.className = "text-xs text-amber-600 font-semibold mb-6";
+            }
+        }
+
+        function setFormStatus(isLocked) {
+            if (isLocked) {
+                inputTahun.readOnly = true;
+                inputTahun.classList.add('bg-gray-100', 'cursor-not-allowed');
+                
+                inputSekolah.disabled = true;
+                inputSekolah.classList.add('bg-gray-100', 'cursor-not-allowed');
+                
+                inputJurusan.disabled = true;
+                inputJurusan.classList.add('bg-gray-100', 'cursor-not-allowed');
+            } else {
+                inputTahun.readOnly = false;
+                inputTahun.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                inputTahun.placeholder = "Contoh: 2024";
+
+                inputSekolah.disabled = false;
+                inputSekolah.classList.remove('bg-gray-100', 'cursor-not-allowed');
+
+                inputJurusan.disabled = false;
+                inputJurusan.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            }
+        }
+
+        function resetFormIsian() {
+            inputTahun.value = '';
+            inputSekolah.value = '';
+            inputJurusan.value = '';
+            if (inputEmail) inputEmail.value = '';
+            if (inputNohp) inputNohp.value = '';
+            setFormStatus(true);
+        }
+
+        if (inputNama) {
+            inputNama.addEventListener('input', autoFillDataAlumni);
+            inputNama.addEventListener('change', autoFillDataAlumni);
+        }
+
+        // Kontrol Input Dinamis
+        statusAlumni.addEventListener('change', (e) => {
+            const val = e.target.value;
+
+            detailBekerja.classList.add('hidden');
+            detailKuliah.classList.add('hidden');
+            detailWirausaha.classList.add('hidden');
+
+            inputPosisiKerja.removeAttribute('required');
+            inputTempatKerja.removeAttribute('required');
+            inputNamaKampus.removeAttribute('required');
+            inputJurusanKuliah.removeAttribute('required');
+            inputJenisUsaha.removeAttribute('required');
+            inputNamaUsaha.removeAttribute('required');
+
+            if (val === 'Bekerja') {
+                detailBekerja.classList.remove('hidden');
+                inputPosisiKerja.setAttribute('required', 'true');
+                inputTempatKerja.setAttribute('required', 'true');
+            } else if (val === 'Kuliah') {
+                detailKuliah.classList.remove('hidden');
+                inputNamaKampus.setAttribute('required', 'true');
+                inputJurusanKuliah.setAttribute('required', 'true');
+            } else if (val === 'Wirausaha') {
+                detailWirausaha.classList.remove('hidden');
+                inputJenisUsaha.setAttribute('required', 'true');
+                inputNamaUsaha.setAttribute('required', 'true');
+            }
+        });
+
+        formTracer.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let namaClean = inputNama.value;
+            if (namaClean.includes(' - ')) {
+                namaClean = namaClean.split(' - ')[0];
+            }
+
+            const formData = {
+                nama: namaClean,
+                tahun: inputTahun.value,
+                email: inputEmail ? inputEmail.value : '',
+                nohp: inputNohp ? inputNohp.value : '',
+                sekolah: inputSekolah.value,
+                jurusan: inputJurusan.value,
+                status: statusAlumni.value,
+                posisiKerja: inputPosisiKerja.value,
+                tempatKerja: inputTempatKerja.value,
+                namaKampus: inputNamaKampus.value,
+                jurusanKuliah: inputJurusanKuliah.value,
+                jenisUsaha: inputJenisUsaha.value,
+                namaUsaha: inputNamaUsaha.value
+            };
+
+            const originalText = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Mengirim...'; 
+            btnSubmit.disabled = true;
+
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run
+                    .withSuccessHandler(function(res) {
+                        if (res && res.indexOf("Error") !== -1) {
+                            alert(res);
+                        } else {
+                            pesanSukses.classList.remove('hidden'); 
+                            formTracer.reset(); 
+                            resetFormIsian();
+                            
+                            detailBekerja.classList.add('hidden');
+                            detailKuliah.classList.add('hidden');
+                            detailWirausaha.classList.add('hidden');
+                            
+                            loadProgressTracer();
+                            google.script.run.withSuccessHandler(renderSemuaData).getDataFBKK();
+
+                            setTimeout(() => pesanSukses.classList.add('hidden'), 4000);
+                        }
+                        btnSubmit.innerHTML = originalText; 
+                        btnSubmit.disabled = false;
+                    })
+                    .withFailureHandler(function(err) {
+                        alert("Gagal menyimpan: " + (err.message || err)); 
+                        btnSubmit.innerHTML = originalText; 
+                        btnSubmit.disabled = false;
+                    })
+                    .simpanTracer(formData);
+            }
+        });
+
+        // Memuat Progress Tracer
+        function loadProgressTracer() {
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run
+                    .withSuccessHandler(function(data) {
+                        if (!data) return;
+                        if (data.error) {
+                            document.getElementById('tabel-progress-body').innerHTML = `<tr><td colspan="6" class="py-4 text-center text-red-500">Gagal memuat data. ${data.error}</td></tr>`;
+                            return;
+                        }
+
+                        const summary = data.summary || {};
+                        document.getElementById('card-total-responden').innerText = summary.totalResponden !== undefined ? summary.totalResponden : 0;
+                        document.getElementById('card-total-sekolah').innerText = summary.totalSekolah !== undefined ? summary.totalSekolah : 0;
+                        document.getElementById('card-total-jurusan').innerText = summary.totalJurusan !== undefined ? summary.totalJurusan : 0;
+                        document.getElementById('card-total-bekerja').innerText = summary.totalBekerja !== undefined ? summary.totalBekerja : 0;
+
+                        const tbody = document.getElementById('tabel-progress-body');
+                        tbody.innerHTML = ''; 
+
+                        const listData = data.list || [];
+                        if (listData.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="6" class="py-4 text-center">Belum ada data pengisian.</td></tr>';
+                        } else {
+                            listData.forEach((item, index) => {
+                                const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50'; 
+                                let statusColor = "bg-gray-500";
+                                const st = (item['Status'] || item['status'] || '').toString().toLowerCase();
+                                
+                                if (st.includes('bekerja') || st.includes('kerja')) statusColor = 'bg-emerald-500';
+                                else if (st.includes('kuliah')) statusColor = 'bg-blue-500';
+                                else if (st.includes('wirausaha')) statusColor = 'bg-purple-500';
+                                else if (st.includes('mencari') || st.includes('belum')) statusColor = 'bg-amber-500';
+
+                                tbody.innerHTML += `
+                                    <tr class="${bgClass} hover:bg-blue-50 transition-colors">
+                                        <td class="py-3 px-4 text-center font-medium">${index + 1}</td>
+                                        <td class="py-3 px-4 font-semibold text-gray-800">${item['Nama'] || item['nama'] || '-'}</td>
+                                        <td class="py-3 px-4">${item['Sekolah'] || item['sekolah'] || item['Asal Sekolah'] || '-'}</td>
+                                        <td class="py-3 px-4">${item['Jurusan'] || item['jurusan'] || '-'}</td>
+                                        <td class="py-3 px-4 text-center">${item['Tahun Lulus'] || item['tahun'] || '-'}</td>
+                                        <td class="py-3 px-4 text-center">
+                                            <span class="${statusColor} text-white text-[10px] font-bold tracking-wider px-2.5 py-1 rounded shadow-sm uppercase">
+                                                ${item['Status'] || item['status'] || '-'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                    })
+                    .withFailureHandler(function(err) {
+                        document.getElementById('tabel-progress-body').innerHTML = `<tr><td colspan="6" class="py-4 text-center text-red-500">Gagal terhubung dengan database.</td></tr>`;
+                    })
+                    .getProgressTracer(); 
+            }
+        }
+
+        // Render Data Server
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof google !== 'undefined' && google.script) {
+                google.script.run.withSuccessHandler(renderSemuaData).withFailureHandler(err => console.error(err)).getDataFBKK(); 
+                
+                loadSekolahDanJurusan();
+                loadMasterAlumni();
+                loadProgressTracer();
+            }
+        });
+
+        let currentSlide = 0; let slideInterval; let sliderDOMs = []; let dotDOMs = [];
+
+        function renderSemuaData(dataServer) {
+            if (!dataServer) return;
+
+            // PROFIL 
+            if (dataServer.profil) {
+                const profilData = safeParse(dataServer.profil, []);
+                if(profilData.length > 0) {
+                    document.getElementById('profil-subjudul').innerText = profilData[0].subJudul || 'Profil Singkat';
+                    document.getElementById('profil-judul').innerText = profilData[0].judul || 'Tentang FBKK SMK';
+                    document.getElementById('profil-deskripsi').innerText = profilData[0].deskripsi || '';
+                } else {
+                    document.getElementById('profil-subjudul').innerText = 'Profil Singkat';
+                    document.getElementById('profil-judul').innerText = 'Tentang FBKK SMK';
+                    document.getElementById('profil-deskripsi').innerText = 'Data profil belum diisi di Google Sheets (Sheet Profil).';
+                }
+            }
+
+            // STATISTIK
+            const stat = safeParse(dataServer.statistik, {});
+            document.getElementById('stat-alumni').setAttribute('data-target', stat.alumni || 0);
+            document.getElementById('stat-bekerja').setAttribute('data-target', stat.bekerja || 0);
+            document.getElementById('stat-wirausaha').setAttribute('data-target', stat.wirausaha || 0);
+            document.getElementById('stat-mitra').setAttribute('data-target', stat.mitra || 0);
+            document.getElementById('stat-lowongan').setAttribute('data-target', stat.lowongan || 0);
+            
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const updateCount = () => {
+                    const count = +counter.innerText; 
+                    const inc = Math.max(1, target / 50);
+                    if (count < target) { 
+                        counter.innerText = Math.ceil(count + inc); 
+                        setTimeout(updateCount, 20); 
+                    } else { 
+                        counter.innerText = target; 
+                    }
+                };
+                if (target > 0) updateCount();
+                else counter.innerText = 0;
+            });
+
+            // BANNER
+            const bannerData = safeParse(dataServer.banner, []);
+            const containerSlider = document.getElementById('slider-container');
+            const dotsContainer = document.getElementById('dots-container');
+            
+            if(bannerData.length > 0) {
+                let slideHTML = ''; let dotHTML = '';
+                bannerData.forEach((item, index) => {
+                    let activeClass = index === 0 ? 'active' : ''; 
+                    let dotClass = index === 0 ? 'bg-accent active' : 'bg-white/50 hover:bg-white/80';
+                    slideHTML += `<div class="slider-img ${activeClass} w-full h-full"><img src="${item.gambar}" class="w-full h-full object-cover"><div class="absolute inset-0 overlay-gradient"></div><div class="absolute inset-0 flex items-center justify-center text-center px-4"><div class="slider-content max-w-4xl z-20"><span class="text-accent font-semibold tracking-widest uppercase text-sm md:text-base mb-3 block">${item.label || ''}</span><h2 class="text-4xl md:text-6xl font-heading font-bold text-white mb-6 leading-tight">${item.judul || ''}</h2><p class="text-lg md:text-xl text-gray-200 mb-8 max-w-2xl mx-auto font-light">${item.deskripsi || ''}</p>${item.teksTombol ? `<a href="${item.linkTombol}" class="inline-block bg-primary text-white font-semibold px-8 py-3.5 rounded-full hover:bg-blue-800 transition-all shadow-[0_0_15px_rgba(30,58,138,0.5)] border border-blue-400 hover:border-accent">${item.teksTombol}</a>` : ''}</div></div></div>`;
+                    dotHTML += `<div class="w-3 h-3 rounded-full ${dotClass} cursor-pointer dot transition-all" data-index="${index}"></div>`;
+                });
+                containerSlider.innerHTML = slideHTML; dotsContainer.innerHTML = dotHTML;
+                document.getElementById('prevBtn').classList.remove('hidden'); document.getElementById('nextBtn').classList.remove('hidden');
+                sliderDOMs = document.querySelectorAll('.slider-img'); dotDOMs = document.querySelectorAll('.dot');
+                dotDOMs.forEach((dot, idx) => dot.addEventListener('click', () => { showSlide(idx); resetSlideTimer(); }));
+                document.getElementById('nextBtn').addEventListener('click', () => { nextSlide(); resetSlideTimer(); });
+                document.getElementById('prevBtn').addEventListener('click', () => { prevSlide(); resetSlideTimer(); });
+                startSlideTimer();
+            } else { containerSlider.innerHTML = '<div class="absolute inset-0 flex items-center justify-center text-white"><p>Silakan isi data Banner di Google Sheets.</p></div>'; }
+
+            // LOWONGAN
+            const lowonganData = safeParse(dataServer.lowongan, []);
+            const wadahLowongan = document.getElementById('lowongan-container');
+            if(lowonganData.length === 0) { wadahLowongan.innerHTML = '<p class="col-span-full text-center text-gray-500">Belum ada lowongan terbaru.</p>'; } 
+            else {
+                let htmlLowongan = '';
+                lowonganData.forEach(item => {
+                    htmlLowongan += `<div class="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">${item.label ? `<div class="absolute top-4 right-4 ${item.labelClass || 'bg-blue-100 text-blue-700'} text-xs font-bold px-3 py-1 rounded-full">${item.label}</div>` : ''}<div class="p-6 flex-grow flex flex-col"><div class="flex items-center gap-4 mb-4"><div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border border-gray-200"><i class="fas fa-building text-xl"></i></div><div><h3 class="font-bold text-gray-800 font-heading">${item.perusahaan}</h3><p class="text-sm text-gray-500">${item.kategori}</p></div></div><h4 class="text-xl font-bold text-primary mb-3">${item.posisi}</h4><div class="space-y-2 mb-6"><div class="flex items-center text-sm text-gray-600 gap-2"><i class="fas fa-map-marker-alt w-5 text-gray-400"></i> ${item.lokasi}</div><div class="flex items-center text-sm text-gray-600 gap-2"><i class="fas fa-calendar-alt w-5 text-gray-400"></i> Batas: ${item.batas}</div></div><div class="mt-auto pt-4 border-t border-gray-100">${item.linkLamaran ? `<a href="${item.linkLamaran}" target="_blank" class="block w-full text-center bg-blue-50 text-blue-700 hover:bg-primary hover:text-white font-semibold py-2.5 rounded-lg transition-colors duration-300">Lamar Sekarang <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>` : `<span class="block w-full text-center bg-gray-100 text-gray-400 font-semibold py-2.5 rounded-lg cursor-not-allowed text-sm">Link Belum Tersedia</span>`}</div></div></div>`;
+                });
+                wadahLowongan.innerHTML = htmlLowongan;
+            }
+
+            // MITRA
+            globalMitraData = safeParse(dataServer.mitra, []);
+            const wadahMitra = document.getElementById('grid-mitra');
+            if (globalMitraData.length === 0) { wadahMitra.innerHTML = '<p class="text-center text-gray-500 col-span-full">Belum ada data mitra.</p>'; } 
+            else {
+                wadahMitra.innerHTML = ''; 
+                globalMitraData.forEach((item, idx) => {
+                    const nama = item.nama || 'Nama Mitra'; 
+                    const logo = item.logo || 'https://via.placeholder.com/200?text=No+Logo';
+                    wadahMitra.innerHTML += `<div onclick="openMitraDetailByIndex(${idx})" class="cursor-pointer flex flex-col items-center justify-center p-4 bg-gray-50 hover:bg-white rounded-xl border border-gray-200 hover:shadow-lg transition-all duration-300 group"><div class="mb-3 overflow-hidden rounded-lg"><img src="${logo}" class="h-12 w-auto object-contain grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-300"></div><span class="text-xs font-semibold text-gray-700 text-center">${nama}</span><span class="text-[10px] text-blue-600 font-medium mt-1">Klik detail &rarr;</span></div>`;
+                });
+            }
+
+            // BERITA
+            globalBeritaData = safeParse(dataServer.berita, []);
+            const wadahBerita = document.getElementById('grid-berita');
+            if (globalBeritaData.length === 0) { wadahBerita.innerHTML = '<p class="text-center text-gray-500 col-span-full">Belum ada berita terbaru saat ini.</p>'; } 
+            else {
+                wadahBerita.innerHTML = ''; 
+                globalBeritaData.forEach((item, idx) => {
+                    wadahBerita.innerHTML += `<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-between"><div><img src="${item.gambar}" onclick="bukaModalBeritaByIndex(${idx})" class="w-full h-48 object-cover cursor-pointer hover:opacity-80 transition-opacity"><div class="p-6"><span class="text-xs font-semibold ${item.kategoriClass || 'bg-blue-100 text-blue-700'} px-2.5 py-1 rounded-md inline-block mb-3">${item.kategori}</span><h3 class="text-lg font-bold text-gray-800 mb-2">${item.judul}</h3><p class="text-gray-600 text-sm mb-4 line-clamp-3">${item.excerpt}</p></div></div><div class="px-6 pb-6"><button onclick="bukaModalBeritaByIndex(${idx})" class="text-blue-600 text-sm font-semibold hover:underline flex items-center gap-1">Baca selengkapnya &rarr;</button></div></div>`;
+                });
+            }
+        }
+
+        // Slider Helper
+        function showSlide(index) {
+            sliderDOMs.forEach(s => s.classList.remove('active')); dotDOMs.forEach(d => { d.classList.remove('bg-accent', 'active'); d.classList.add('bg-white/50'); });
+            if(sliderDOMs[index]) sliderDOMs[index].classList.add('active');
+            if(dotDOMs[index]) { dotDOMs[index].classList.remove('bg-white/50'); dotDOMs[index].classList.add('bg-accent', 'active'); }
+            currentSlide = index;
+        }
+        function nextSlide() { if(sliderDOMs.length > 0) showSlide((currentSlide + 1) % sliderDOMs.length); }
+        function prevSlide() { if(sliderDOMs.length > 0) showSlide((currentSlide - 1 + sliderDOMs.length) % sliderDOMs.length); }
+        function startSlideTimer() { slideInterval = setInterval(nextSlide, 5000); }
+        function resetSlideTimer() { clearInterval(slideInterval); startSlideTimer(); }
+    </script>
+</body>
+</html>
